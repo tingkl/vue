@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1 v-if="ok">Yes</h1>
+    <h1 v-else>No</h1>
+    <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    <h1 v-show="ok">Hello!</h1>
+    <div v-if="Math.random() > 0.5">Sorry</div>
+    <div v-else>Not sorry</div>
+    <ul>
+        <li v-for="item in items">
+            {{parentMessage}} - {{$index}} - {{item.message}}
+        </li>
+    </ul>
+    <div v-for="(index, item) in items">
+        {{index}}  {{item.message}}
+    </div>
+
+    <ul>
+        <template v-for="item in items">
+            <li>{{msg($index)}}</li>
+            <li class="divider"></li>
+        </template>
+    </ul>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            parentMessage: 'Parent',
+            items: [
+                {
+                    message: 'Foo'
+                },
+                {
+                    message: 'Bar'
+                }
+            ]
+        },
+        methods: {
+            msg: function ($index) {
+                return this.items[$index].message;
+            }
+        }
+    });
+</script>
+</body>
+</html>

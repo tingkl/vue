@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{message}}</p>
+    <input v-model="message">
+    <ul>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ul>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!',
+            todos: [
+                {
+                    text: 'Learn JavaScript'
+                },
+                {
+                    text:'Learn Vue.js'
+                },
+                {
+                    text: 'Build Something Awesome'
+                }
+            ]
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    });
+</script>
+
+<div id="app2">
+    <input v-model="newTodo" v-on:keyup.enter="addTodo">
+    <ul>
+        <li v-for="todo in todos">
+            <span>{{todo.text}}</span>
+            <button v-on:click="removeTodo($index)">X</button>
+        </li>
+    </ul>
+    <script>
+        var data = {
+            firstName: 'Foo',
+            lastName: 'Bar',
+            newTodo: '',
+            a: 1,
+            todos: [
+                {
+                    text: 'Add some todos'
+                }
+            ]
+        };
+        var vm = new Vue({
+            el: '#app2',
+            data: data,
+            computed: {
+                // only getter
+                fullName: function () {
+                    return this.firstName + '3' + this.lastName;
+                },
+                otherName: {
+                    get: function () {
+                        return this.firstName + '.' + this.lastName;
+                     },
+                    set: function (newValue) {
+                        var names = newValue.split(' ');
+                        this.firstName = names[0];
+                        this.lastName = names[names.length - 1];
+                    }
+                }
+            },
+            created: function () {
+                // this 指向 vm 实例
+                console.log('a is :' + this.a);
+            },
+            compiled: function () {
+                console.log('compiled');
+            },
+            ready: function () {
+                console.log('ready');
+            },
+            destroyed: function () {
+                console.log('destroyed');
+            },
+            methods: {
+                addTodo: function () {
+                    var text = this.newTodo.trim();
+                    if (text) {
+                        this.todos.push({text: text});
+                        this.newTodo = '';
+                    }
+                },
+                removeTodo: function (index) {
+                    this.todos.splice(index, 1);
+                }
+            }
+        });
+        console.log(vm.$data === data);
+        console.log(vm.$el === document.getElementById('app2'));
+        vm.$watch('todos', function (newVal, oldVal) {
+            console.log(JSON.stringify(newVal));
+            console.log(JSON.stringify(oldVal));
+        });
+
+        console.log(vm.fullName);
+        vm.otherName = 'John Doe';
+        console.log(vm.firstName, vm.lastName);
+    </script>
+</div>
+</body>
+</html>

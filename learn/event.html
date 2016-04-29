@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <button v-on:click="greet">Greet</button>
+    <button @click="say('what', $event)">say what</button>
+    <a @click.stop="doThis"></a>
+    <form v-on:submit.prevent="onSubmit"></form>
+    <div v-on:click.self="doThat">...</div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            name: 'a name',
+            parentMessage: 'Parent',
+            items: [
+                {
+                    message: 'Foo'
+                },
+                {
+                    message: 'Bar'
+                }
+            ]
+        },
+        methods: {
+            greet: function (event) {
+                alert('Hello' + this.name + '!' + event.target.tagName);
+            },
+            say: function (msg, event) {
+                alert(msg);
+                event.preventDefault();
+            }
+        }
+    });
+</script>
+</body>
+</html>

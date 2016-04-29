@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <style>
+        .class-a {
+            height: 20px;
+            background-color: blue;
+        }
+        .class-b {
+            height: 30px;
+            background-color: black;
+        }
+    </style>
+    <p>{{message}}</p>
+    <input v-model="message">
+    <ul>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ul>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <div class="static" v-bind:class="{'class-a': isA, 'class-b': isB}"></div>
+    <div v-bind:class="classObject"></div>
+    <div v-bind:class="[classA, classB]"></div>
+    <div v-bind:class="[classA, isB ? classB : '']"></div>
+    <div v-bind:class="[classA, {classB: isB, classC: isC}]"></div>
+    <div v-bind:style="{color: activeColor, fontSize: fontSize = 'px', height: '20px'}">style</div>
+    <div v-bind:style="styleObject">singleObject</div>
+    <div v-bind:style="[styleObjectA, styleObjectB]">moreObject</div>
+    <button v-on:click="isB = !isB, isA= !isA">Change</button>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            styleObject: {
+                color: 'red',
+                fontSize: '13px',
+                height: '20px'
+            },
+            styleObjectA: {
+                borderRadius: '50%',
+                width: '50px'
+            },
+            styleObjectB: {
+                backgroundColor: 'red',
+                border: '1px solid green',
+                height: '50px'
+            },
+            activeColor: 'red',
+            fontSize: 30,
+            message: 'Hello Vue.js!',
+            classA: 'class-a',
+            isA: true,
+            isB: false,
+            classB: 'class-b',
+            classObject: {
+                'class-c': true,
+                'class-d': false
+            },
+            todos: [
+                {
+                    text: 'Learn JavaScript'
+                },
+                {
+                    text:'Learn Vue.js'
+                },
+                {
+                    text: 'Build Something Awesome'
+                }
+            ]
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
